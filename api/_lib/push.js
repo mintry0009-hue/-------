@@ -1,20 +1,30 @@
 import webpush from "web-push";
-import { config } from "./config.js";
 
-if (config.vapidPublicKey && config.vapidPrivateKey) {
-  webpush.setVapidDetails(
-    config.vapidSubject,
-    config.vapidPublicKey,
-    config.vapidPrivateKey,
-  );
+function getPushConfig() {
+  return {
+    subject: process.env["VAPID_SUBJECT"] || "mailto:admin@example.com",
+    publicKey: process.env["VAPID_PUBLIC_KEY"] || "",
+    privateKey: process.env["VAPID_PRIVATE_KEY"] || "",
+  };
+}
+
+function ensureWebPushConfigured() {
+  const config = getPushConfig();
+  if (!config.publicKey || !config.privateKey) {
+    return config;
+  }
+
+  webpush.setVapidDetails(config.subject, config.publicKey, config.privateKey);
+  return config;
 }
 
 export function getPublicVapidKey() {
-  return config.vapidPublicKey;
+  return getPushConfig().publicKey;
 }
 
 export async function sendPushNotification(subscription, payload) {
-  if (!config.vapidPublicKey || !config.vapidPrivateKey) {
+  const config = ensureWebPushConfigured();
+  if (!config.publicKey || !config.privateKey) {
     return;
   }
 

@@ -1,9 +1,12 @@
 import jwt from "jsonwebtoken";
-import { config } from "./config.js";
 import { getSupabaseAdmin } from "./supabase.js";
 
+function getJwtSecret() {
+  return process.env["JWT_SECRET"] || "change-this-secret";
+}
+
 export function signToken(userId) {
-  return jwt.sign({ userId }, config.jwtSecret, { expiresIn: "7d" });
+  return jwt.sign({ userId }, getJwtSecret(), { expiresIn: "7d" });
 }
 
 export function getBearerToken(req) {
@@ -20,7 +23,7 @@ export async function requireUser(req) {
   let payload;
 
   try {
-    payload = jwt.verify(token, config.jwtSecret);
+    payload = jwt.verify(token, getJwtSecret());
   } catch {
     throw new Error("유효하지 않은 토큰입니다.");
   }
