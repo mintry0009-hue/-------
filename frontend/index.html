@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>푸른여행 알리미</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">School Trip Alert</p>
+          <h1>푸른여행 알리미</h1>
+        </div>
+        <div class="user-box hidden" id="userBox">
+          <span id="userLabel"></span>
+          <button id="logoutButton" type="button">로그아웃</button>
+        </div>
+      </header>
+
+      <div class="message hidden" id="message"></div>
+      <main id="app"></main>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

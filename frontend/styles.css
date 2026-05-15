@@ -1,0 +1,274 @@
+:root {
+  font-family: "Segoe UI", "Noto Sans KR", sans-serif;
+  color: #18212f;
+  background:
+    radial-gradient(circle at top left, rgba(255, 214, 102, 0.45), transparent 28%),
+    linear-gradient(135deg, #f4efe4 0%, #d7ebff 55%, #f4fbff 100%);
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem 1.1rem;
+  background: #0e5cad;
+  color: white;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #cbd6e3;
+  border-radius: 12px;
+  padding: 0.85rem 0.95rem;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.app-shell {
+  width: min(1200px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 28px 0 44px;
+}
+
+.topbar,
+.dashboard,
+.auth-layout {
+  display: grid;
+  gap: 20px;
+}
+
+.topbar {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  color: #7a5b16;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 14px 40px rgba(44, 63, 88, 0.08);
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.auth-layout {
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: start;
+}
+
+.intro h2 {
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.toggle {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 8px;
+  border-radius: 18px;
+  background: #eef5fb;
+}
+
+.toggle button {
+  background: transparent;
+  color: #4f6078;
+}
+
+.toggle button.active {
+  background: #0e5cad;
+  color: white;
+}
+
+.message {
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: #eef8d8;
+  color: #3b5b11;
+}
+
+.message.error {
+  background: #fde9e7;
+  color: #8e2f26;
+}
+
+.hidden {
+  display: none;
+}
+
+.dashboard {
+  grid-template-columns: 340px 1fr;
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: 20px;
+}
+
+.wide {
+  min-width: 0;
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.class-card {
+  display: grid;
+  gap: 5px;
+  text-align: left;
+  width: 100%;
+  background: #f7fbff;
+  color: #19304f;
+  border: 1px solid #d3e6f8;
+}
+
+.class-card.active {
+  background: #0e5cad;
+  color: white;
+}
+
+.class-card.static {
+  cursor: default;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #e3f0ff;
+  color: #18467d;
+  font-weight: 700;
+}
+
+.inline {
+  margin-bottom: 8px;
+}
+
+.student-row,
+.notice-head,
+.user-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.student-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #e8edf3;
+}
+
+.student-row:last-child {
+  border-bottom: none;
+}
+
+.notice {
+  padding: 16px;
+  border-radius: 16px;
+  background: #fbfdff;
+  border: 1px solid #e3edf7;
+}
+
+.notice p:last-of-type {
+  white-space: pre-wrap;
+}
+
+.hero {
+  min-height: 200px;
+  display: grid;
+  align-content: center;
+}
+
+.muted {
+  color: #6d7a8a;
+}
+
+@media (max-width: 900px) {
+  .auth-layout,
+  .dashboard,
+  .topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .user-box,
+  .student-row,
+  .notice-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .app-shell {
+    width: min(100vw - 20px, 1200px);
+    padding-top: 20px;
+  }
+}
