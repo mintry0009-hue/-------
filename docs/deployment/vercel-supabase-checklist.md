@@ -1,34 +1,39 @@
-# Vercel + Supabase 배포 체크리스트
+# Vercel + Supabase Deployment Checklist
 
-## 1. Supabase 준비
+## 1. Create a Supabase Project
 
-1. Supabase에서 새 프로젝트를 만든다.
-2. SQL Editor에서 [supabase/schema.sql](C:/Users/USER/Desktop/푸른여행알리미/supabase/schema.sql)을 실행한다.
-3. `Project Settings > API`에서 아래 값을 확인한다.
+1. Create a new project in Supabase.
+2. Open SQL Editor and run [supabase/schema.sql](/C:/Users/USER/Desktop/푸른여행알리미/supabase/schema.sql).
+3. In `Project Settings -> API Keys`, copy these values:
 
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 
-## 2. VAPID 키 준비
+Supabase documents that the public client should use the low-privilege publishable or legacy `anon` key, while server components should use a secret or legacy `service_role` key. [Supabase API keys](https://supabase.com/docs/guides/api/api-keys)
 
-웹 푸시를 실제 배포에서 쓰려면 고정된 VAPID 키가 필요하다.
+## 2. Prepare VAPID Keys
 
-필요한 환경변수:
+Web push in production needs fixed VAPID keys.
+
+Set these environment variables:
 
 - `VAPID_SUBJECT`
 - `VAPID_PUBLIC_KEY`
 - `VAPID_PRIVATE_KEY`
 
-## 3. Vercel 프로젝트 생성
+## 3. Import the Repository into Vercel
 
-1. 이 저장소를 GitHub에 올린다.
-2. Vercel에서 `New Project`로 해당 저장소를 가져온다.
-3. Framework Preset은 `Other`로 둬도 된다.
+1. Go to Vercel and create a new project from GitHub.
+2. Choose this repository.
+3. Set `Framework Preset` to `Other`.
+4. Leave the root directory as the repository root.
 
-## 4. Vercel 환경변수 등록
+Vercel's import flow supports connecting an existing Git repository and lets you adjust build settings during import. [Vercel import docs](https://vercel.com/docs/getting-started-with-vercel/import)
 
-아래 값을 등록한다.
+## 4. Add Environment Variables in Vercel
+
+Add the following variables in `Project Settings -> Environment Variables`:
 
 - `SUPABASE_URL`
 - `SUPABASE_ANON_KEY`
@@ -38,29 +43,29 @@
 - `VAPID_PUBLIC_KEY`
 - `VAPID_PRIVATE_KEY`
 
-예시는 [api/.env.example](C:/Users/USER/Desktop/푸른여행알리미/api/.env.example)에 있다.
+Example placeholders are in [api/.env.example](/C:/Users/USER/Desktop/푸른여행알리미/api/.env.example).
 
-## 5. 배포 구조 확인
+## 5. Confirm the Routing Structure
 
-현재 설정은 아래처럼 동작한다.
+This project is configured so that:
 
-- `/` -> [frontend/index.html](C:/Users/USER/Desktop/푸른여행알리미/frontend/index.html)
-- `/app.js` -> [frontend/app.js](C:/Users/USER/Desktop/푸른여행알리미/frontend/app.js)
-- `/styles.css` -> [frontend/styles.css](C:/Users/USER/Desktop/푸른여행알리미/frontend/styles.css)
-- `/sw.js` -> [frontend/sw.js](C:/Users/USER/Desktop/푸른여행알리미/frontend/sw.js)
-- `/api/*` -> [api](C:/Users/USER/Desktop/푸른여행알리미/api) 아래 Vercel Functions
+- `/` serves [frontend/index.html](/C:/Users/USER/Desktop/푸른여행알리미/frontend/index.html)
+- `/app.js` serves [frontend/app.js](/C:/Users/USER/Desktop/푸른여행알리미/frontend/app.js)
+- `/styles.css` serves [frontend/styles.css](/C:/Users/USER/Desktop/푸른여행알리미/frontend/styles.css)
+- `/sw.js` serves [frontend/sw.js](/C:/Users/USER/Desktop/푸른여행알리미/frontend/sw.js)
+- `/api/*` runs the Vercel Functions in [api](/C:/Users/USER/Desktop/푸른여행알리미/api)
 
-## 6. 배포 후 확인
+## 6. Verify After Deployment
 
-1. `/api/health`가 `{"ok":true}`를 반환하는지 확인
-2. 회원가입 / 로그인 확인
-3. 선생님 계정으로 반 생성 확인
-4. 학생 계정으로 반 참여 확인
-5. 학생 계정에서 푸시 구독 확인
-6. 선생님 공지 등록 시 푸시 도착 확인
+1. Open `/api/health` and confirm it returns `{"ok":true}`.
+2. Test signup and login.
+3. Test teacher class creation.
+4. Test student class join.
+5. Test push subscription on a student account.
+6. Test notice creation and delivery.
 
-## 7. 주의사항
+## 7. Notes
 
-- 현재 인증은 Supabase Auth가 아니라 자체 JWT 방식이다.
-- 장기적으로는 `users` 테이블 기반 로그인보다 Supabase Auth 전환이 더 좋다.
-- 푸시 발송은 현재 함수 요청 안에서 바로 처리하므로 대량 발송에는 적합하지 않다.
+- The current authentication flow still uses the app's own JWT, not Supabase Auth.
+- Long term, moving from the `users` table login flow to Supabase Auth would be cleaner.
+- Push notifications are sent during API requests, so this setup is suitable for small-scale use rather than high-volume broadcasting.
